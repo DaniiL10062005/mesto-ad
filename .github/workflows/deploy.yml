@@ -33,3 +33,20 @@ jobs:
           external_repository: DaniiL10062005/mesto-production
           publish_branch: main
           publish_dir: ./dist
+      - name: Verify published build
+        timeout-minutes: 6
+        shell: bash
+        run: |
+          site="https://daniil10062005.github.io/mesto-production"
+          script=$(find dist/assets -name '*.js' -type f -print -quit)
+          for attempt in {1..25}; do
+            if curl -fsSL --max-time 8 "$site/?build=$GITHUB_SHA" -o "$RUNNER_TEMP/mesto.html" &&
+               cmp -s dist/index.html "$RUNNER_TEMP/mesto.html" &&
+               curl -fsSL --max-time 8 "$site/${script#dist/}" -o "$RUNNER_TEMP/mesto.js" &&
+               cmp -s "$script" "$RUNNER_TEMP/mesto.js"; then
+              exit 0
+            fi
+            sleep 6
+          done
+          echo "GitHub Pages has not served the expected build"
+          exit 1
