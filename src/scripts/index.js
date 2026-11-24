@@ -43,7 +43,6 @@ const infoDetails = infoPopup.querySelector(".popup__info");
 const infoUsers = infoPopup.querySelector(".popup__list");
 const detailTemplate = document.querySelector("#popup-info-definition-template").content;
 const userTemplate = document.querySelector("#popup-info-user-preview-template").content;
-const sessionForm = document.querySelector(".session-form");
 const status = document.querySelector(".request-status");
 const profileControls = [profileAvatar, openProfileFormButton, openCardFormButton];
 const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
@@ -167,38 +166,16 @@ bindForm(cardForm, cardFormModalWindow, openCardFormButton, () => cardForm.reset
   placesWrap.prepend(renderCard(card));
 }, "Создание…");
 
-async function loadPage(token, remember = false) {
-  const connectButton = sessionForm.querySelector("button");
-  connectButton.disabled = true;
-  status.hidden = true;
-  api.setToken(token);
+async function loadPage() {
   try {
     const [user, cards] = await Promise.all([api.getProfile(), api.getCards()]);
     currentUserId = user._id;
     renderProfile(user);
     placesWrap.replaceChildren(...cards.map(renderCard));
     profileControls.forEach((control) => { control.disabled = false; });
-    if (remember) sessionStorage.setItem("mesto-token", token);
-    sessionForm.reset();
-    sessionForm.hidden = true;
   } catch (error) {
-    sessionForm.hidden = false;
     showError(error);
-  } finally {
-    connectButton.disabled = false;
   }
 }
 
-sessionForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  loadPage(sessionForm.elements.token.value.trim(), true);
-});
-
-const token = sessionStorage.getItem("mesto-token") || (import.meta.env.DEV
-  ? import.meta.env.VITE_MESTO_TOKEN
-  : import.meta.env.VITE_PUBLIC_MESTO_TOKEN);
-if (token) {
-  loadPage(token);
-} else {
-  sessionForm.hidden = false;
-}
+loadPage();

@@ -1,9 +1,8 @@
 const baseUrl = "https://mesto.nomoreparties.co/v1/apf-cohort-203";
-const headers = { "Content-Type": "application/json" };
-
-export function setToken(token) {
-  headers.authorization = token;
-}
+const headers = {
+  authorization: import.meta.env.VITE_MESTO_TOKEN,
+  "Content-Type": "application/json",
+};
 
 async function request(path, method = "GET", data) {
   const response = await fetch(baseUrl + path, {

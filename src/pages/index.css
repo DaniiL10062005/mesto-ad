@@ -12,15 +12,11 @@
 @import url('../blocks/popup/_is-opened/popup_is-opened.css');
 /*Импортируем на уровень выше*/
 
-.request-status,
-.session-form {
+.request-status {
   box-sizing: border-box;
-  padding: 12px 0;
   font: 16px/1.4 Inter, sans-serif;
   color: white;
 }
-.session-form label { display: block; margin-bottom: 8px; }
-.session-form input { display: block; max-width: 100%; margin-top: 8px; }
 .request-status:not([hidden]) {
   position: fixed;
   bottom: 12px;

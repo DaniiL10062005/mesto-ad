@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_PUBLIC_MESTO_TOKEN: ${{ secrets.PUBLIC_MESTO_TOKEN }}
+          VITE_MESTO_TOKEN: ${{ secrets.PUBLIC_MESTO_TOKEN }}
       - uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.PUBLIC_PAGES_DEPLOY_KEY }}
@@ -50,3 +50,5 @@ jobs:
           done
           echo "GitHub Pages has not served the expected build"
           exit 1
+      - name: Check initial profile and gallery in Chrome
+        run: node scripts/check-pages.mjs https://daniil10062005.github.io/mesto-production/
