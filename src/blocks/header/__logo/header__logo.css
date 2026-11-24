@@ -1,6 +1,7 @@
 .header__logo {
-  width: 142px;
-  height: 33px;
+  width: 145px;
+  height: 35px;
+  margin-top: 5px;
   object-fit: contain;
   cursor: pointer;
   -webkit-transition: opacity 0.3s;
@@ -16,8 +17,8 @@
 
 @media screen and (max-width: 480px) {
   .header__logo {
-    width: 104px;
-    height: 24px;
-    margin: 0 0 0 7px;
+    width: 107px;
+    height: 26px;
+    margin: -3px 0 0 7px;
   }
 }

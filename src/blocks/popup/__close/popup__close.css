@@ -1,14 +1,14 @@
 .popup__close {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   background: transparent url('../../../images/close.svg') center no-repeat;
   /*Шортхэнды пора бы знать, хотя бы в можно лучше*/
-  background-size: 35px 35px;
+  background-size: contain;
   /*Можно марджином тут выровнять под ПЭПЭ, но тут оставил AS.*/
   border: none;
   position: absolute;
-  top: -36px;
-  right: -34px;
+  top: -40px;
+  right: -40px;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
@@ -29,6 +29,7 @@
   .popup__close {
     width: 20px;
     height: 20px;
+    top: -36px;
     right: 0;
     background-size: 20px 20px;
   }

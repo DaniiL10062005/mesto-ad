@@ -6,13 +6,13 @@
   border-radius: 10px;
   position: relative;
   box-sizing: border-box;
-  padding: 34px 36px;
+  padding: 34px 36px 36px;
 }
 
 @media screen and (max-width: 568px) {
   .popup__content {
-    width: 100%;
-    max-width: calc(100% - 80px);
-    padding: 25px 20px;
+    width: calc(100% - 38px);
+    max-width: 430px;
+    padding: 25px 22px;
   }
 }

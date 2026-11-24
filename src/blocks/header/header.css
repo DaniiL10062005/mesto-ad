@@ -1,7 +1,7 @@
 @import url('./__logo/header__logo.css');
 
 .header {
-  min-height: 120px;
+  min-height: 119px;
   /*Если подгонять под ПЭПЭ, то тут min-height: 117px;*/
   font-family: 'Inter', Arial, sans-serif;
   display: flex;
@@ -32,9 +32,9 @@
 
 @media screen and (max-width: 480px) {
   .header {
-    min-height: 85px;
+    min-height: 84px;
   }
   .header::before {
-    width: calc(100% + 40px);
+    width: calc(100% + 38px);
   }
 }

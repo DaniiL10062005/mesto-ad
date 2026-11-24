@@ -10,13 +10,13 @@
   color: #fff;
   display: flex;
   align-items: center;
-  padding: 36px 0;
+  padding: 40px 0 36px;
   /*Если подгонять под ПЭПЭ, то тут padding: 40px 0; Проявите лоялити*/
 }
 
 @media screen and (max-width: 480px) {
   .profile {
-    padding: 43px 0 20px;
+    padding: 42px 0 21px;
     flex-direction: column;
     text-align: center;
   }
