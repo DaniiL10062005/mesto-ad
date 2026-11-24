@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "deploy": "gh-pages -d dist -b main -r git@github.com:DaniiL10062005/mesto-production.git --nojekyll",
+    "predeploy": "npm run build"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "vite": "^7.3.8"
   }
 }

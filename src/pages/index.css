@@ -11,3 +11,25 @@
 @import url('../blocks/popup/_is-animated/popup_is-animated.css');
 @import url('../blocks/popup/_is-opened/popup_is-opened.css');
 /*Импортируем на уровень выше*/
+
+.request-status,
+.session-form {
+  box-sizing: border-box;
+  padding: 12px 0;
+  font: 16px/1.4 Inter, sans-serif;
+  color: white;
+}
+.session-form label { display: block; margin-bottom: 8px; }
+.session-form input { display: block; max-width: 100%; margin-top: 8px; }
+.request-status:not([hidden]) {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #333;
+  z-index: 20;
+}

@@ -1,0 +1,35 @@
+name: Publish Mesto
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mesto-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_PUBLIC_MESTO_TOKEN: ${{ secrets.PUBLIC_MESTO_TOKEN }}
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.PUBLIC_PAGES_DEPLOY_KEY }}
+          external_repository: DaniiL10062005/mesto-production
+          publish_branch: main
+          publish_dir: ./dist
