@@ -25,12 +25,12 @@ function hasInvalidInput(inputs) {
   return inputs.some((input) => !input.validity.valid);
 }
 
-function disableSubmitButton(button, settings) {
+export function disableSubmitButton(button, settings) {
   button.disabled = true;
   button.classList.add(settings.inactiveButtonClass);
 }
 
-function enableSubmitButton(button, settings) {
+export function enableSubmitButton(button, settings) {
   button.disabled = false;
   button.classList.remove(settings.inactiveButtonClass);
 }

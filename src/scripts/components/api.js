@@ -1,13 +1,15 @@
-const baseUrl = "https://mesto.nomoreparties.co/v1/apf-cohort-203";
-const headers = {
-  authorization: import.meta.env.VITE_MESTO_TOKEN,
-  "Content-Type": "application/json",
+const config = {
+  baseUrl: "https://mesto.nomoreparties.co/v1/apf-cohort-203",
+  headers: {
+    authorization: "f94da287-545f-4dfd-8ee0-91eb7095cef4",
+    "Content-Type": "application/json",
+  },
 };
 
 async function request(path, method = "GET", data) {
-  const response = await fetch(baseUrl + path, {
+  const response = await fetch(config.baseUrl + path, {
     method,
-    headers,
+    headers: config.headers,
     body: data === undefined ? undefined : JSON.stringify(data),
   });
   if (!response.ok) {

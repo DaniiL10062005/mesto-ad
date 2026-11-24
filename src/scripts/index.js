@@ -1,7 +1,7 @@
 import * as api from "./components/api.js";
-import { createCardElement } from "./components/card.js";
+import { createCardElement, removeCard, renderLikes } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
-import { enableValidation, clearValidation } from "./components/validation.js";
+import { enableValidation, clearValidation, disableSubmitButton, enableSubmitButton } from "./components/validation.js";
 
 const validationSettings = {
   formSelector: ".popup__form",
@@ -107,7 +107,31 @@ async function showInfo(id) {
   }
 }
 
-const cardActions = { preview, showInfo, setLike: api.setLike, deleteCard: api.deleteCard, showError };
+async function handleLike(id, button, count) {
+  button.disabled = true;
+  try {
+    const liked = button.getAttribute("aria-pressed") === "true";
+    const card = await api.setLike(id, !liked);
+    renderLikes(button, count, card.likes, currentUserId);
+  } catch (error) {
+    showError(error);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function handleDelete(id, element, button) {
+  button.disabled = true;
+  try {
+    await api.deleteCard(id);
+    removeCard(element);
+  } catch (error) {
+    showError(error);
+    button.disabled = false;
+  }
+}
+
+const cardActions = { preview, showInfo, onLike: handleLike, onDelete: handleDelete };
 
 function renderCard(card) {
   return createCardElement(card, currentUserId, cardActions);
@@ -124,23 +148,21 @@ function bindForm(form, popup, opener, prepare, save, pendingText) {
   });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (button.disabled || !form.checkValidity()) return;
-    button.disabled = true;
+    if (button.disabled) return;
+    disableSubmitButton(button, validationSettings);
     opener.disabled = true;
     fields.forEach((field) => { field.readOnly = true; });
     button.textContent = pendingText;
     status.hidden = true;
     try {
       await save();
-      form.reset();
       if (popup.classList.contains("popup_is-opened")) closeModalWindow(popup);
     } catch (error) {
       showError(error);
     } finally {
       fields.forEach((field) => { field.readOnly = false; });
       button.textContent = label;
-      button.disabled = !form.checkValidity();
-      button.classList.toggle(validationSettings.inactiveButtonClass, button.disabled);
+      enableSubmitButton(button, validationSettings);
       opener.disabled = false;
     }
   });

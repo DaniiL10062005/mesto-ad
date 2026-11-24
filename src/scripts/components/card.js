@@ -1,5 +1,16 @@
 const cardTemplate = document.querySelector("#card-template").content;
 
+export function renderLikes(button, count, likes, userId) {
+  const liked = likes.some((user) => user._id === userId);
+  button.classList.toggle("card__like-button_is-active", liked);
+  button.setAttribute("aria-pressed", String(liked));
+  count.textContent = likes.length;
+}
+
+export function removeCard(element) {
+  element.remove();
+}
+
 export function createCardElement(card, userId, actions) {
   const element = cardTemplate.querySelector(".card").cloneNode(true);
   const image = element.querySelector(".card__image");
@@ -8,42 +19,16 @@ export function createCardElement(card, userId, actions) {
   const remove = element.querySelector(".card__control-button_type_delete");
   const info = element.querySelector(".card__control-button_type_info");
 
-  function renderLikes(likes) {
-    const liked = likes.some((user) => user._id === userId);
-    like.classList.toggle("card__like-button_is-active", liked);
-    like.setAttribute("aria-pressed", String(liked));
-    count.textContent = likes.length;
-  }
-
   image.src = card.link;
   image.alt = card.name;
   element.querySelector(".card__title").textContent = card.name;
-  renderLikes(card.likes);
+  renderLikes(like, count, card.likes, userId);
   image.addEventListener("click", () => actions.preview(card));
   info.addEventListener("click", () => actions.showInfo(card._id));
-  like.addEventListener("click", async () => {
-    like.disabled = true;
-    try {
-      const updated = await actions.setLike(card._id, like.getAttribute("aria-pressed") !== "true");
-      renderLikes(updated.likes);
-    } catch (error) {
-      actions.showError(error);
-    } finally {
-      like.disabled = false;
-    }
-  });
+  like.addEventListener("click", () => actions.onLike(card._id, like, count));
 
   if (card.owner._id === userId) {
-    remove.addEventListener("click", async () => {
-      remove.disabled = true;
-      try {
-        await actions.deleteCard(card._id);
-        element.remove();
-      } catch (error) {
-        actions.showError(error);
-        remove.disabled = false;
-      }
-    });
+    remove.addEventListener("click", () => actions.onDelete(card._id, element, remove));
   } else {
     remove.remove();
   }
