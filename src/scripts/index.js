@@ -1,5 +1,11 @@
 import * as api from "./components/api.js";
-import { createCardElement, removeCard, renderLikes } from "./components/card.js";
+import {
+  createCardElement,
+  isCardLiked,
+  removeCard,
+  renderLikes,
+  setCardButtonDisabled,
+} from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 import { enableValidation, clearValidation, disableSubmitButton, enableSubmitButton } from "./components/validation.js";
 
@@ -108,26 +114,26 @@ async function showInfo(id) {
 }
 
 async function handleLike(id, button, count) {
-  button.disabled = true;
+  setCardButtonDisabled(button, true);
   try {
-    const liked = button.getAttribute("aria-pressed") === "true";
+    const liked = isCardLiked(button);
     const card = await api.setLike(id, !liked);
     renderLikes(button, count, card.likes, currentUserId);
   } catch (error) {
     showError(error);
   } finally {
-    button.disabled = false;
+    setCardButtonDisabled(button, false);
   }
 }
 
 async function handleDelete(id, element, button) {
-  button.disabled = true;
+  setCardButtonDisabled(button, true);
   try {
     await api.deleteCard(id);
     removeCard(element);
   } catch (error) {
     showError(error);
-    button.disabled = false;
+    setCardButtonDisabled(button, false);
   }
 }
 

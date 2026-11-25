@@ -1,5 +1,13 @@
 const cardTemplate = document.querySelector("#card-template").content;
 
+export function isCardLiked(button) {
+  return button.getAttribute("aria-pressed") === "true";
+}
+
+export function setCardButtonDisabled(button, disabled) {
+  button.disabled = disabled;
+}
+
 export function renderLikes(button, count, likes, userId) {
   const liked = likes.some((user) => user._id === userId);
   button.classList.toggle("card__like-button_is-active", liked);
